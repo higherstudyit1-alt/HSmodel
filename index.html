@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Higher.study Counsellor Training Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F8FC;
+      --card: #FFFFFF;
+      --ink: #14213D;
+      --mut: #5B6785;
+      --line: #E3E8F2;
+      --pri: #2547D0;
+      --pri2: #EAEFFE;
+      --ok: #16A34A;
+      --ok2: #E7F6EC;
+      --cur: #D97706;
+      --cur2: #FEF3E2;
+      --bad: #DC2626;
+      --bad2: #FDECEC;
+      --sh: 0 1px 3px rgba(20,33,61,.06), 0 8px 24px rgba(20,33,61,.06);
+      box-sizing: border-box;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme=light]) {
+        --bg: #0E1424;
+        --card: #171F36;
+        --ink: #E8ECF7;
+        --mut: #9AA6C4;
+        --line: #27314D;
+        --pri: #6F8BFF;
+        --pri2: #202C57;
+        --ok2: #14301F;
+        --cur2: #3A2A10;
+        --bad2: #3A1717;
+        --sh: none;
+      }
+    }
+    :root[data-theme=dark] {
+      --bg: #0E1424;
+      --card: #171F36;
+      --ink: #E8ECF7;
+      --mut: #9AA6C4;
+      --line: #27314D;
+      --pri: #6F8BFF;
+      --pri2: #202C57;
+      --ok2: #14301F;
+      --cur2: #3A2A10;
+      --bad2: #3A1717;
+      --sh: none;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, p { margin: 0; }
+    h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; }
+    h2 { font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em; }
+    h3 { font-size: 1rem; font-weight: 700; }
+    .mut { color: var(--mut); font-size: .88rem; }
+    button { font: inherit; cursor: pointer; border: 0; outline: none; }
+    :focus-visible { outline: 2px solid var(--pri); outline-offset: 2px; }
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: .65rem 1.15rem;
+      font-weight: 700;
+      font-size: .9rem;
+      background: var(--pri);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      transition: filter .15s, transform .1s;
+    }
+    .btn:hover { filter: brightness(1.08); }
+    .btn:active { transform: scale(.98); }
+    .btn.sec { background: var(--pri2); color: var(--pri); }
+    .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+    .btn.ghost:hover { background: var(--bg); }
+    .btn.sm { padding: .4rem .75rem; font-size: .82rem; border-radius: 8px; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn.block { width: 100%; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--sh);
+      padding: 1.25rem;
+      transition: box-shadow .2s;
+    }
+    .grid { display: grid; gap: 1rem; }
+    .g4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .sp { justify-content: space-between; }
+    .col { display: flex; flex-direction: column; gap: 1rem; }
+    .bar {
+      height: 8px;
+      background: var(--line);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--pri);
+      border-radius: 99px;
+      transition: width .5s ease-out;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .2rem .6rem;
+      border-radius: 99px;
+      font-size: .76rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .b-done { background: var(--ok2); color: var(--ok); }
+    .b-cur { background: var(--cur2); color: var(--cur); }
+    .b-lock { background: var(--line); color: var(--mut); }
+    .b-new { background: var(--pri2); color: var(--pri); }
+    label { display: block; font-weight: 600; font-size: .86rem; margin-bottom: .3rem; }
+    input, select, textarea {
+      width: 100%;
+      padding: .65rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--ink);
+      font: inherit;
+      font-size: .92rem;
+      transition: border-color .15s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--pri); outline: none; }
+    .field { margin-bottom: .9rem; }
+    .err { color: var(--bad); font-size: .82rem; margin-top: .3rem; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -.02em;
+    }
+    .logo b {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--pri);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+    }
+    .auth { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+    .auth .l {
+      background: linear-gradient(145deg, #182B7D, var(--pri));
+      color: #fff;
+      padding: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .auth .l .logo b { background: #fff; color: var(--pri); }
+    .auth .r { display: grid; place-items: center; padding: 2rem; }
+    .auth .card { width: 100%; max-width: 440px; padding: 2.2rem; }
+    .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .side {
+      background: var(--card);
+      border-right: 1px solid var(--line);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .65rem .8rem;
+      border-radius: 10px;
+      color: var(--mut);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: .9rem;
+      transition: background .15s, color .15s;
+    }
+    .nav:hover { background: var(--bg); color: var(--ink); }
+    .nav.on { background: var(--pri2); color: var(--pri); font-weight: 700; }
+    .main { padding: 1.5rem 2rem; max-width: 1240px; width: 100%; margin: 0 auto; }
+    .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; }
+    .av {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--pri);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+    .ico {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--pri2);
+      font-size: 1.25rem;
+      flex: none;
+    }
+    .hero {
+      background: linear-gradient(135deg, #182B7D, var(--pri));
+      color: #fff;
+      border: 0;
+      border-radius: 16px;
+      padding: 1.5rem 1.75rem;
+    }
+    .dot {
+      flex: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      background: var(--pri2);
+      color: var(--pri);
+    }
+    .dot.d { background: var(--ok); color: #fff; }
+    .dot.c { background: var(--cur); color: #fff; }
+    .dot.l { background: var(--line); color: var(--mut); }
+    .opt {
+      display: flex;
+      gap: .8rem;
+      align-items: flex-start;
+      padding: .85rem 1rem;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      background: var(--card);
+      text-align: left;
+      width: 100%;
+      color: var(--ink);
+      transition: border-color .15s, background .15s;
+    }
+    .opt:hover { border-color: var(--pri); }
+    .opt.sel { border-color: var(--pri); background: var(--pri2); font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    th, td { text-align: left; padding: .65rem .75rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    th { color: var(--mut); font-weight: 600; font-size: .82rem; }
+    .tw { overflow-x: auto; max-width: 100%; }
+    .toast {
+      position: fixed;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      background: #14213D;
+      color: #fff;
+      padding: .8rem 1.25rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: .9rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      z-index: 100;
+      animation: toastIn .25s ease-out;
+    }
+    @keyframes toastIn { from { transform: translateY(12px); opacity: 0; } }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 30, .6);
+      backdrop-filter: blur(4px);
+      display: grid;
+      place-items: center;
+      z-index: 90;
+      padding: 1rem;
+    }
+    .modal .card { width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
+    .empty { text-align: center; padding: 2.5rem 1rem; color: var(--mut); }
+    .seg {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .seg button {
+      flex: 1;
+      text-align: center;
+      padding: .45rem .6rem;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--mut);
+      font-weight: 700;
+      font-size: .85rem;
+      transition: background .15s, color .15s;
+    }
+    .seg button.on {
+      background: var(--card);
+      color: var(--pri);
+      box-shadow: var(--sh);
+    }
+    .pw { position: relative; }
+    .pw input { padding-right: 2.8rem; }
+    .eye {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      font-size: 1.1rem;
+      padding: .2rem .4rem;
+      color: var(--mut);
+    }
+    @media (max-width: 860px) {
+      .auth { grid-template-columns: 1fr; }
+      .auth .l { display: none; }
+      .app { grid-template-columns: 1fr; }
+      .side { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Component & Data Modules (Strict Order) -->
+  <script src="config.js"></script>
+  <script src="data/collegesData.js"></script>
+  <script src="data/trainingModulesData.js"></script>
+  <script src="data/questionBankData.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/manager.js"></script>
+  <script src="js/employee.js"></script>
+
+  <!-- Main Application Orchestrator -->
+  <script>
+    (function(window) {
+      'use strict';
+
+      const S = {
+        toast: '',
+        toastTimer: null,
+        activeModal: null,
+        modalData: null,
+        loginRole: 'admin',
+        loginEmail: 'hsadmin@gmail.com',
+        loginPw: 'hsadmin@2026',
+        loginError: '',
+        loading: false,
+        activeQuizAttempt: null
+      };
+
+      const $ = (s) => document.querySelector(s);
+      const R = (h) => { const el = $('#root'); if (el) el.innerHTML = h; };
+      const go = (p) => { location.hash = '#' + p; };
+
+      function toast(msg) {
+        S.toast = msg;
+        clearTimeout(S.toastTimer);
+        draw();
+        S.toastTimer = setTimeout(() => {
+          S.toast = '';
+          draw();
+        }, 3200);
+      }
+
+      // Main Reactive Draw Function
+      function draw() {
+        const hash = (location.hash || '#/login').slice(1);
+        const parts = hash.split('/').filter(Boolean);
+        const route = parts[0] || 'login';
+        const subroute = parts.slice(1).join('/');
+        const user = window.HS_AUTH.getCurrentUser();
+
+        // Protected routing enforcement
+        if (!user && route !== 'login' && route !== 'register') {
+          return go('/login');
+        }
+        if (user && (route === 'login' || route === 'register')) {
+          return go(window.HS_AUTH.getHomeRoute(user.role));
+        }
+
+        // Access permissions enforcement
+        if (user && route === 'admin' && user.role !== 'admin') {
+          toast('Admin area is restricted.');
+          return go(window.HS_AUTH.getHomeRoute(user.role));
+        }
+        if (user && route === 'manager' && user.role === 'employee') {
+          toast('Manager area is restricted.');
+          return go('dashboard');
+        }
+
+        let mainContent = '';
+
+        if (route === 'login') {
+          mainContent = renderLogin();
+        } else if (route === 'register') {
+          mainContent = renderRegister();
+        } else {
+          // Authenticated Shell
+          let bodyHtml = '';
+          if (route === 'admin') {
+            bodyHtml = window.HS_ADMIN.render(subroute);
+          } else if (route === 'manager') {
+            bodyHtml = window.HS_MANAGER.render(subroute);
+          } else if (route === 'training') {
+            const p = parts.slice(1);
+            bodyHtml = window.HS_EMPLOYEE.renderLessonView(p[0] || 'MOD01', p[1] || 'COL02', p[2]);
+          } else if (route === 'quiz') {
+            const p = parts.slice(1);
+            bodyHtml = window.HS_EMPLOYEE.renderQuizView(p[0] || 'MOD01', p[1] || 'COL02');
+          } else if (route === 'work') {
+            bodyHtml = renderWorkLogView();
+          } else if (route === 'attendance') {
+            bodyHtml = renderAttendanceView();
+          } else {
+            bodyHtml = window.HS_EMPLOYEE.renderDashboard();
+          }
+
+          mainContent = renderShell(route, bodyHtml);
+        }
+
+        R(mainContent + renderModal() + (S.toast ? `<div class="toast">${S.toast}</div>` : ''));
+      }
+
+      // Shell Header & Navigation
+      function renderShell(activeRoute, bodyHtml) {
+        const user = window.HS_AUTH.getCurrentUser() || {};
+        const role = user.role || 'employee';
+        const initials = (user.name || 'User').split(' ').map(x => x[0]).join('').slice(0, 2);
+
+        const navLinks = [
+          { route: 'dashboard', icon: '🏠', label: 'My Training' },
+          { route: 'work', icon: '💼', label: 'Work Log' },
+          { route: 'attendance', icon: '🕘', label: 'Attendance' }
+        ];
+
+        if (role === 'manager' || role === 'admin') {
+          navLinks.push({ route: 'manager', icon: '🧭', label: 'Team Portal' });
+        }
+        if (role === 'admin') {
+          navLinks.push({ route: 'admin', icon: '⚙️', label: 'Admin Command' });
+        }
+
+        return `
+          <div class="app">
+            <aside class="side">
+              <div class="logo"><b>H</b>Higher.study</div>
+              <div style="font-size:.74rem;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin:.8rem 0 .3rem">
+                ${user.isPrimaryAdmin ? 'Primary Admin' : role.toUpperCase() + ' AREA'}
+              </div>
+              <nav class="col" style="gap:2px">
+                ${navLinks.map(n => `
+                  <a href="#/${n.route}" class="nav ${activeRoute === n.route ? 'on' : ''}">
+                    <span>${n.icon}</span><span>${n.label}</span>
+                  </a>
+                `).join('')}
+              </nav>
+              <div style="margin-top:auto"></div>
+              <button class="nav" style="border:0;background:none;width:100%;text-align:left;color:var(--bad)" onclick="window.HS_APP.logout()">
+                <span>↩</span><span>Sign Out</span>
+              </button>
+            </aside>
+            <div class="main">
+              <header class="top">
+                <div class="row">
+                  <div>
+                    <h1 style="font-size:1.4rem">Higher.study Training</h1>
+                    <p class="mut">${user.name} · ${user.jobRole || role}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <span class="badge ${role === 'admin' ? 'b-done' : 'b-new'}">${user.isPrimaryAdmin ? 'Primary Admin' : role}</span>
+                  <button class="btn sm ghost" title="Synchronize with Google Sheet" onclick="window.HS_DB.syncFromSheet().then(r => { toast(r.ok ? 'Refreshed from Google Sheet' : r.error); draw(); })">
+                    🔄 Sync
+                  </button>
+                  <div class="av">${initials}</div>
+                </div>
+              </header>
+              ${bodyHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      // Render Login View
+      function renderLogin() {
+        return `
+          <div class="auth">
+            <div class="l">
+              <div class="logo"><b>H</b>Higher.study</div>
+              <div>
+                <h1 style="font-size:2.4rem;line-height:1.2">Employee Counsellor Training Platform</h1>
+                <p style="opacity:.85;margin:1rem 0 1.5rem">
+                  Enterprise training engine for Higher.study counsellors across 28 colleges.
+                </p>
+                <div class="col" style="gap:.6rem;font-size:.95rem">
+                  <div>✓ Verified 28-college facts and course scopes</div>
+                  <div>✓ Strict Alliance campus restrictions enforcement</div>
+                  <div>✓ Exactly 8 main modules (IMP Module 8 always last)</div>
+                  <div>✓ Hidden quiz feedback during testing (Section 12)</div>
+                </div>
+              </div>
+              <p style="opacity:.7;font-size:.85rem">© 2026 Higher.study. All rights reserved.</p>
+            </div>
+
+            <div class="r">
+              <div class="card col">
+                <div>
+                  <h2>Sign in</h2>
+                  <p class="mut" style="margin-top:.2rem">Choose your account role to proceed.</p>
+                </div>
+
+                <div class="seg">
+                  <button class="${S.loginRole === 'admin' ? 'on' : ''}" onclick="window.HS_APP.setLoginRole('admin')">Admin</button>
+                  <button class="${S.loginRole === 'manager' ? 'on' : ''}" onclick="window.HS_APP.setLoginRole('manager')">Manager</button>
+                  <button class="${S.loginRole === 'employee' ? 'on' : ''}" onclick="window.HS_APP.setLoginRole('employee')">Employee</button>
+                </div>
+
+                <div class="field">
+                  <label for="loginEmailInput">Work Email</label>
+                  <input type="email" id="loginEmailInput" value="${S.loginEmail}" placeholder="e.g. hsadmin@gmail.com">
+                </div>
+
+                <div class="field">
+                  <label for="loginPwInput">Password</label>
+                  <div class="pw">
+                    <input type="password" id="loginPwInput" value="${S.loginPw}" placeholder="Enter password">
+                    <button type="button" class="eye" onclick="window.HS_APP.togglePasswordVisibility('loginPwInput', this)">👁</button>
+                  </div>
+                  ${S.loginError ? `<div class="err">${S.loginError}</div>` : ''}
+                </div>
+
+                <div class="card" style="background:var(--pri2);padding:.6rem .8rem;font-size:.82rem">
+                  <b>Initial Credentials:</b><br>
+                  • Admin: <code>hsadmin@gmail.com</code> / <code>hsadmin@2026</code><br>
+                  • Manager: <code>manager@higher.study</code> / <code>manager@2026</code><br>
+                  • Employee: <code>neha@higher.study</code> / <code>employee@2026</code>
+                </div>
+
+                <button class="btn block" ${S.loading ? 'disabled' : ''} onclick="window.HS_APP.doLogin()">
+                  ${S.loading ? 'Verifying Credentials…' : 'Sign in as ' + S.loginRole.toUpperCase()}
+                </button>
+
+                <div class="row sp" style="font-size:.85rem;margin-top:.5rem">
+                  <a href="#" onclick="toast('Please contact Primary Admin to reset your password');return false">Forgot Password?</a>
+                  <a href="#/register">Create Account</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Render Register View
+      function renderRegister() {
+        const colleges = window.HS_DB.data.colleges || [];
+        return `
+          <div class="auth">
+            <div class="l">
+              <div class="logo"><b>H</b>Higher.study</div>
+              <div>
+                <h1 style="font-size:2.2rem">New Account Setup</h1>
+                <p style="opacity:.85;margin:.8rem 0">Join Higher.study Counsellor Training.</p>
+              </div>
+              <p style="opacity:.7;font-size:.85rem">© 2026 Higher.study</p>
+            </div>
+            <div class="r">
+              <div class="card col">
+                <h2>Create Account</h2>
+                <div class="field">
+                  <label>Full Name</label>
+                  <input id="regName" placeholder="Enter full name">
+                </div>
+                <div class="field">
+                  <label>Work Email</label>
+                  <input id="regEmail" type="email" placeholder="name@higher.study">
+                </div>
+                <div class="field">
+                  <label>Password (min 6 characters)</label>
+                  <input id="regPw" type="password" placeholder="Create secure password">
+                </div>
+                <div class="field">
+                  <label>Account Role</label>
+                  <select id="regRole">
+                    <option value="employee">Employee / Counsellor</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Assigned College Training Plan</label>
+                  <select id="regCol">
+                    ${colleges.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                  </select>
+                </div>
+                <button class="btn block" onclick="window.HS_APP.doRegister()">Register Account</button>
+                <div style="text-align:center;margin-top:.8rem;font-size:.86rem">
+                  <a href="#/login">Already have an account? Sign In</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Work Log View
+      function renderWorkLogView() {
+        const db = window.HS_DB.data;
+        const user = window.HS_AUTH.getCurrentUser();
+        const logs = (db.workLog || []).filter(w => w.u === user.id);
+
+        return `
+          <div class="col" style="gap:1.25rem">
+            <div class="row sp">
+              <div>
+                <h2>My Daily Work Log</h2>
+                <p class="mut">Record daily calls made, leads contacted, follow-ups concluded, and admissions.</p>
+              </div>
+              <button class="btn sm" onclick="window.HS_APP.showModal('addWorkEntry')">+ Add Work Entry</button>
+            </div>
+
+            <div class="tw card">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Calls Completed</th>
+                    <th>Leads Contacted</th>
+                    <th>Follow-ups</th>
+                    <th>Admissions Confirmed</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${logs.length ? logs.map(w => `
+                    <tr>
+                      <td><b>${w.date}</b></td>
+                      <td>${w.calls}</td>
+                      <td>${w.leads}</td>
+                      <td>${w.follow}</td>
+                      <td><b style="color:var(--ok)">${w.adm}</b></td>
+                      <td>${w.notes || '–'}</td>
+                    </tr>
+                  `).join('') : `
+                    <tr><td colspan="6" class="empty">No work entries added yet. Click "+ Add Work Entry".</td></tr>
+                  `}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }
+
+      // Attendance View
+      function renderAttendanceView() {
+        const db = window.HS_DB.data;
+        const user = window.HS_AUTH.getCurrentUser();
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const todayRec = (db.attendance || []).find(a => a.u === user.id && a.date === todayStr);
+
+        return `
+          <div class="col" style="gap:1.25rem">
+            <div class="card hero">
+              <div class="row sp">
+                <div>
+                  <h1 style="color:#fff">Attendance Portal</h1>
+                  <p style="opacity:.9;margin-top:.3rem">Today: ${todayStr}</p>
+                </div>
+                <div class="row">
+                  ${!todayRec ? `
+                    <button class="btn sm" style="background:#fff;color:var(--pri)" onclick="window.HS_APP.checkIn()">Check In Now</button>
+                  ` : !todayRec.out ? `
+                    <button class="btn sm sec" onclick="window.HS_APP.checkOut()">Check Out (${todayRec.in})</button>
+                  ` : `
+                    <span class="badge b-done" style="font-size:.9rem">✓ Day Completed (${todayRec.in} - ${todayRec.out})</span>
+                  `}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Modals
+      function renderModal() {
+        if (!S.activeModal) return '';
+        const m = S.activeModal;
+        const d = S.modalData || {};
+
+        if (m === 'confirmSubmitQuiz') {
+          const unanswered = d.unanswered || [];
+          return `
+            <div class="modal" onclick="if(event.target===this){ window.HS_APP.closeModal(); }">
+              <div class="card col" style="max-width:480px">
+                <h2>Submit Assessment Confirmation</h2>
+                ${unanswered.length ? `
+                  <div class="card" style="background:var(--cur2);border-left:4px solid var(--cur);font-size:.88rem">
+                    <b>Attention:</b> You have <b>${unanswered.length} unanswered question(s)</b>: Question numbers ${unanswered.join(', ')}.
+                  </div>
+                  <p class="mut" style="font-size:.88rem">
+                    Would you like to review them, or proceed with submitting the assessment now?
+                  </p>
+                ` : `
+                  <p class="mut">
+                    Are you sure you want to submit this module assessment? Your answers will be securely scored and your result recorded.
+                  </p>
+                `}
+                <div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:.5rem">
+                  <button class="btn sm ghost" onclick="window.HS_APP.closeModal()">Review Answers</button>
+                  <button class="btn sm" style="background:var(--ok)" onclick="window.HS_APP.executeQuizSubmit()">
+                    Confirm & Submit Assessment
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (m === 'addCollege') {
+          return `
+            <div class="modal" onclick="if(event.target===this){ window.HS_APP.closeModal(); }">
+              <div class="card col">
+                <h2>Add New College</h2>
+                <div class="field"><label>College Name</label><input id="newColName" placeholder="e.g. SRM University"></div>
+                <div class="field"><label>City & State</label><input id="newColCity" placeholder="e.g. Chennai, Tamil Nadu"></div>
+                <div class="field"><label>Accreditation</label><input id="newColAcc" placeholder="e.g. NAAC A++ Grade, UGC Approved"></div>
+                <div class="field"><label>Official Website</label><input id="newColWeb" placeholder="https://..."></div>
+                <div class="row" style="justify-content:flex-end;margin-top:.5rem">
+                  <button class="btn sm ghost" onclick="window.HS_APP.closeModal()">Cancel</button>
+                  <button class="btn sm" onclick="window.HS_APP.saveNewCollege()">Save College</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (m === 'addQuestion') {
+          const db = window.HS_DB.data;
+          const colleges = db.colleges || [];
+          const modules = db.modules || [];
+          return `
+            <div class="modal" onclick="if(event.target===this){ window.HS_APP.closeModal(); }">
+              <div class="card col" style="max-width:580px">
+                <h2>Add Quiz Question</h2>
+                <div class="field"><label>College Association</label>
+                  <select id="newQCol"><option value="ALL">All Colleges (General Workflow)</option>${colleges.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}</select>
+                </div>
+                <div class="field"><label>Module</label>
+                  <select id="newQMod">${modules.map(m => `<option value="${m.id}">Module ${m.order}: ${m.name}</option>`).join('')}</select>
+                </div>
+                <div class="field"><label>Question Text</label><textarea id="newQText" rows="2"></textarea></div>
+                <div class="field"><label>Option A</label><input id="newQOptA"></div>
+                <div class="field"><label>Option B</label><input id="newQOptB"></div>
+                <div class="field"><label>Option C</label><input id="newQOptC"></div>
+                <div class="field"><label>Option D</label><input id="newQOptD"></div>
+                <div class="field"><label>Correct Answer</label>
+                  <select id="newQAns"><option value="0">Option A</option><option value="1">Option B</option><option value="2">Option C</option><option value="3">Option D</option></select>
+                </div>
+                <div class="field"><label>Explanation</label><textarea id="newQExp" rows="2"></textarea></div>
+                <div class="row" style="justify-content:flex-end">
+                  <button class="btn sm ghost" onclick="window.HS_APP.closeModal()">Cancel</button>
+                  <button class="btn sm" onclick="window.HS_APP.saveNewQuestion()">Save Question</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (m === 'addWorkEntry') {
+          return `
+            <div class="modal" onclick="if(event.target===this){ window.HS_APP.closeModal(); }">
+              <div class="card col">
+                <h2>Add Daily Work Entry</h2>
+                <div class="field"><label>Calls Completed</label><input id="wkCalls" type="number" value="25"></div>
+                <div class="field"><label>Leads Contacted</label><input id="wkLeads" type="number" value="12"></div>
+                <div class="field"><label>Follow-ups Done</label><input id="wkFollow" type="number" value="8"></div>
+                <div class="field"><label>Admissions Confirmed</label><input id="wkAdm" type="number" value="1"></div>
+                <div class="field"><label>Notes / Blockers</label><textarea id="wkNotes" rows="2"></textarea></div>
+                <div class="row" style="justify-content:flex-end">
+                  <button class="btn sm ghost" onclick="window.HS_APP.closeModal()">Cancel</button>
+                  <button class="btn sm" onclick="window.HS_APP.saveWorkEntry()">Save Entry</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (m === 'connSettings') {
+          return `
+            <div class="modal" onclick="if(event.target===this){ window.HS_APP.closeModal(); }">
+              <div class="card col">
+                <h2>Google Sheet Connection Settings</h2>
+                <p class="mut" style="font-size:.85rem">Paste your deployed Apps Script Web App URL ending in <code>/exec</code>:</p>
+                <div class="field">
+                  <input id="sheetUrlSetting" value="${window.HS_CONFIG.SHEET_URL}">
+                </div>
+                <div class="row" style="justify-content:flex-end">
+                  <button class="btn sm ghost" onclick="window.HS_APP.closeModal()">Close</button>
+                  <button class="btn sm" onclick="window.HS_APP.saveSheetUrl()">Save & Reload</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        return '';
+      }
+
+      // App Event Handlers
+      window.HS_APP = {
+        draw: draw,
+        toast: toast,
+        setLoginRole: (r) => { S.loginRole = r; S.loginError = ''; draw(); },
+        togglePasswordVisibility: (id, btn) => {
+          const el = $('#' + id);
+          if (!el) return;
+          const isPw = el.type === 'password';
+          el.type = isPw ? 'text' : 'password';
+          btn.textContent = isPw ? '🙈' : '👁';
+        },
+        doLogin: async () => {
+          const email = $('#loginEmailInput') ? $('#loginEmailInput').value : S.loginEmail;
+          const pw = $('#loginPwInput') ? $('#loginPwInput').value : S.loginPw;
+          S.loading = true;
+          S.loginError = '';
+          draw();
+
+          const res = await window.HS_AUTH.login(email, pw, S.loginRole);
+          S.loading = false;
+          if (res.ok) {
+            toast('Welcome, ' + res.user.name);
+            go(window.HS_AUTH.getHomeRoute(res.user.role));
+          } else {
+            S.loginError = res.error || 'Login failed';
+            draw();
+          }
+        },
+        doRegister: async () => {
+          const name = $('#regName').value;
+          const email = $('#regEmail').value;
+          const password = $('#regPw').value;
+          const role = $('#regRole').value;
+          const colId = $('#regCol').value;
+
+          const res = await window.HS_AUTH.register({
+            name, email, password, role, assignedCollegeId: colId
+          });
+
+          if (res.ok) {
+            toast(res.pendingApproval ? 'Account submitted for admin approval.' : 'Account registered successfully!');
+            go('/login');
+          } else {
+            toast(res.error);
+          }
+        },
+        logout: () => {
+          window.HS_AUTH.logout();
+          toast('Logged out successfully');
+          go('/login');
+        },
+        showModal: (m, d) => { S.activeModal = m; S.modalData = d; draw(); },
+        closeModal: () => { S.activeModal = null; S.modalData = null; draw(); },
+        openLesson: (modId, colId, lesId) => {
+          go(`training/${modId}/${colId}${lesId ? '/' + lesId : ''}`);
+        },
+        openQuiz: (modId, colId) => {
+          go(`quiz/${modId}/${colId}`);
+        },
+        selectQuizOption: (qIdx, optIdx) => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const hashParts = location.hash.slice(1).split('/');
+          const modId = hashParts[1] || 'MOD01';
+          const colId = hashParts[2] || 'COL02';
+          const attempt = window.HS_QUIZ.getActiveAttempt(user.id, colId, modId);
+          if (attempt) {
+            window.HS_QUIZ.selectAnswer(attempt, qIdx, optIdx);
+            draw();
+          }
+        },
+        navigateQuizQuestion: (qIdx) => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const hashParts = location.hash.slice(1).split('/');
+          const modId = hashParts[1] || 'MOD01';
+          const colId = hashParts[2] || 'COL02';
+          const attempt = window.HS_QUIZ.getActiveAttempt(user.id, colId, modId);
+          if (attempt) {
+            window.HS_QUIZ.setCurrentIndex(attempt, qIdx);
+            draw();
+          }
+        },
+        confirmQuizSubmission: () => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const hashParts = location.hash.slice(1).split('/');
+          const modId = hashParts[1] || 'MOD01';
+          const colId = hashParts[2] || 'COL02';
+          const attempt = window.HS_QUIZ.getActiveAttempt(user.id, colId, modId);
+          if (attempt) {
+            const unanswered = window.HS_QUIZ.getUnansweredIndices(attempt);
+            window.HS_APP.showModal('confirmSubmitQuiz', { attempt, unanswered });
+          }
+        },
+        executeQuizSubmit: () => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const hashParts = location.hash.slice(1).split('/');
+          const modId = hashParts[1] || 'MOD01';
+          const colId = hashParts[2] || 'COL02';
+          const attempt = window.HS_QUIZ.getActiveAttempt(user.id, colId, modId);
+          if (attempt) {
+            window.HS_QUIZ.submitAssessment(attempt);
+            window.HS_APP.closeModal();
+            draw();
+          }
+        },
+        retakeQuiz: (modId, colId, shuffle) => {
+          const user = window.HS_AUTH.getCurrentUser();
+          window.HS_QUIZ.startAttempt(user.id, colId, modId, { shuffle: !!shuffle, forceNew: true });
+          go(`quiz/${modId}/${colId}`);
+          draw();
+        },
+        downloadModuleGuide: (modId, colId) => {
+          const html = window.HS_EMPLOYEE.generateStudyGuideHtml(modId, colId);
+          const w = window.open('', '_blank');
+          if (w) {
+            w.document.write(html);
+            w.document.close();
+          } else {
+            toast('Popup blocker prevented print view. Please allow popups.');
+          }
+        },
+        exportCollegesJSON: () => {
+          const data = JSON.stringify(window.HS_DB.data.colleges, null, 2);
+          const blob = new Blob([data], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `higherstudy-28-colleges-${new Date().toISOString().slice(0, 10)}.json`;
+          a.click();
+          toast('Colleges dataset exported successfully');
+        },
+        exportQuestionsCSV: () => {
+          const qs = window.HS_DB.data.questions || [];
+          if (!qs.length) return toast('No questions to export');
+          let csv = 'ID,College,Module,Question,Option A,Option B,Option C,Option D,Correct,Marks,Explanation\n';
+          qs.forEach(q => {
+            const row = [
+              q.id,
+              q.collegeId,
+              q.moduleId,
+              `"${(q.question || '').replace(/"/g, '""')}"`,
+              `"${(q.options[0] || '').replace(/"/g, '""')}"`,
+              `"${(q.options[1] || '').replace(/"/g, '""')}"`,
+              `"${(q.options[2] || '').replace(/"/g, '""')}"`,
+              `"${(q.options[3] || '').replace(/"/g, '""')}"`,
+              'ABCD'[q.correctIndex] || 'A',
+              q.marks || 1,
+              `"${(q.explanation || '').replace(/"/g, '""')}"`
+            ];
+            csv += row.join(',') + '\n';
+          });
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `higherstudy-question-bank-${new Date().toISOString().slice(0, 10)}.csv`;
+          a.click();
+          toast('Question bank exported as CSV');
+        },
+        saveAssessmentSettings: () => {
+          const db = window.HS_DB.data;
+          db.settings.passMark = parseInt($('#setPassMark').value, 10) || 80;
+          db.settings.maxAttempts = parseInt($('#setMaxAttempts').value, 10) || 5;
+          db.settings.shuffleQuestions = $('#setShuffleQuestions').value === 'true';
+          db.settings.shuffleOptions = $('#setShuffleOptions').value === 'true';
+          db.settings.allowAnswerReview = $('#setAllowReview').value === 'true';
+          window.HS_DB.save();
+          toast('Assessment rules updated persistently');
+          draw();
+        },
+        saveSheetUrl: () => {
+          const url = $('#sheetUrlSetting').value.trim();
+          localStorage.setItem('hs-sheet-url', url);
+          window.HS_CONFIG.SHEET_URL = url;
+          window.HS_APP.closeModal();
+          location.reload();
+        },
+        checkIn: () => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const todayStr = new Date().toISOString().slice(0, 10);
+          const nowTime = new Date().toTimeString().slice(0, 5);
+          window.HS_DB.data.attendance.push({
+            u: user.id,
+            date: todayStr,
+            status: 'Present',
+            in: nowTime,
+            out: ''
+          });
+          window.HS_DB.save();
+          toast('Checked in at ' + nowTime);
+          draw();
+        },
+        checkOut: () => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const todayStr = new Date().toISOString().slice(0, 10);
+          const nowTime = new Date().toTimeString().slice(0, 5);
+          const rec = window.HS_DB.data.attendance.find(a => a.u === user.id && a.date === todayStr);
+          if (rec) {
+            rec.out = nowTime;
+            window.HS_DB.save();
+            toast('Checked out at ' + nowTime);
+            draw();
+          }
+        },
+        saveWorkEntry: () => {
+          const user = window.HS_AUTH.getCurrentUser();
+          const todayStr = new Date().toISOString().slice(0, 10);
+          window.HS_DB.data.workLog.unshift({
+            id: 'W' + Date.now(),
+            u: user.id,
+            date: todayStr,
+            calls: +$('#wkCalls').value || 0,
+            leads: +$('#wkLeads').value || 0,
+            follow: +$('#wkFollow').value || 0,
+            adm: +$('#wkAdm').value || 0,
+            notes: $('#wkNotes').value.trim()
+          });
+          window.HS_DB.save();
+          window.HS_APP.closeModal();
+          toast('Daily work entry logged');
+          draw();
+        },
+        saveNewCollege: () => {
+          const name = $('#newColName').value.trim();
+          if (!name) return toast('Enter college name');
+          const id = window.HS_DB.generateId('COL', window.HS_DB.data.colleges, 2);
+          window.HS_DB.data.colleges.push({
+            id: id,
+            name: name,
+            city: $('#newColCity').value.trim(),
+            accreditation: $('#newColAcc').value.trim(),
+            website: $('#newColWeb').value.trim(),
+            status: 'Active'
+          });
+          window.HS_DB.save();
+          window.HS_APP.closeModal();
+          toast('College created successfully');
+          draw();
+        },
+        saveNewQuestion: () => {
+          const qText = $('#newQText').value.trim();
+          if (!qText) return toast('Enter question text');
+          const id = window.HS_DB.generateId('Q_', window.HS_DB.data.questions);
+          window.HS_DB.data.questions.push({
+            id: id,
+            collegeId: $('#newQCol').value,
+            moduleId: $('#newQMod').value,
+            question: qText,
+            options: [$('#newQOptA').value, $('#newQOptB').value, $('#newQOptC').value, $('#newQOptD').value],
+            correctIndex: parseInt($('#newQAns').value, 10),
+            explanation: $('#newQExp').value.trim(),
+            marks: 1,
+            status: 'Active'
+          });
+          window.HS_DB.save();
+          window.HS_APP.closeModal();
+          toast('Question saved to bank');
+          draw();
+        },
+        filterTable: (inputOrId, tableId) => {
+          const term = (typeof inputOrId === 'string' ? ($('#' + inputOrId) || {}).value : inputOrId.value || '').toLowerCase();
+          const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+          rows.forEach(r => {
+            r.style.display = r.textContent.toLowerCase().includes(term) ? '' : 'none';
+          });
+        },
+        updateQuestionBankDisplay: (collegeId) => {
+          const el = $('#qbSummaryContainer');
+          if (!el) return;
+          const summary = window.getCollegeQuestionSummary(collegeId, window.HS_DB.data.questions);
+          const modules = window.HS_DB.data.modules || [];
+          
+          let html = `
+            <div class="grid g4" style="margin-bottom:1rem">
+              <div class="card"><div class="mut">Target per Module</div><h3>50 Questions</h3></div>
+              <div class="card"><div class="mut">Total Target</div><h3>400 Questions</h3></div>
+              <div class="card"><div class="mut">Saved in Bank</div><h3>${summary.totalSaved}</h3></div>
+              <div class="card"><div class="mut">Remaining to Target</div><h3>${summary.totalRemaining}</h3></div>
+            </div>
+            <div class="tw">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Module</th>
+                    <th>Target</th>
+                    <th>Saved</th>
+                    <th>Remaining</th>
+                    <th>Status</th>
+                    <th>Progress</th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+          modules.forEach(m => {
+            const st = summary.moduleBreakdown[m.id] || { savedCount: 0, remainingCount: 50, completionPercentage: 0, status: 'In Progress' };
+            html += `
+              <tr>
+                <td><b>Module ${m.order}: ${m.name}</b></td>
+                <td>50</td>
+                <td><b>${st.savedCount}</b></td>
+                <td>${st.remainingCount}</td>
+                <td><span class="badge ${st.isComplete ? 'b-done' : 'b-cur'}">${st.status}</span></td>
+                <td><div class="bar" style="width:100px"><i style="width:${st.completionPercentage}%"></i></div></td>
+              </tr>
+            `;
+          });
+          html += `</tbody></table></div>`;
+          el.innerHTML = html;
+        }
+      };
+
+      // Listeners
+      window.addEventListener('hashchange', draw);
+      window.addEventListener('DOMContentLoaded', () => {
+        draw();
+        if (location.hash.includes('questions')) {
+          setTimeout(() => {
+            if ($('#qbColSelect')) window.HS_APP.updateQuestionBankDisplay($('#qbColSelect').value);
+          }, 100);
+        }
+      });
+
+    })(window);
+  </script>
+</body>
+</html>
